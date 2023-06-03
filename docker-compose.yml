@@ -1,0 +1,27 @@
+version: "2.18"
+
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 4m1n1s3w
+      MYSQL_DATABASE: jwt_security
+    networks:
+      springboot-mysql-net:
+
+  api:
+    container_name: surelog
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysqldb
+    networks:
+      springboot-mysql-net:
+    restart: on-failure
+
+networks:
+  springboot-mysql-net:
